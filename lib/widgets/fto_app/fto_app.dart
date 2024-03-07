@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fto_app/widgets/issues_list/issues_list_screen.dart';
+import 'package:fto_app/widgets/fto_app/home_screen.dart';
 
 class FTOApp extends StatelessWidget {
   const FTOApp({super.key});
@@ -19,7 +19,7 @@ class FTOApp extends StatelessWidget {
         // scaffoldBackgroundColor: Colors.grey.shade300,
         // colorSchemeSeed: Colors.blueGrey
       ),
-      home: const IssuesListScreen(),
+      home: const HomeScreen(),
     );
   }
 }
