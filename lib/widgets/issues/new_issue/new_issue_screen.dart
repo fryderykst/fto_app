@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fto_app/services/remote_service.dart';
-import 'package:fto_app/widgets/new_issue/assignee_widget.dart';
-import 'package:fto_app/widgets/new_issue/description_widget.dart';
-import 'package:fto_app/widgets/new_issue/title_widget.dart';
-import 'package:fto_app/widgets/new_issue/vehicle_widget.dart';
+import 'package:fto_app/widgets/issues/common/assignee_widget.dart';
+import 'package:fto_app/widgets/issues/common/description_widget.dart';
+import 'package:fto_app/widgets/issues/common/title_widget.dart';
+import 'package:fto_app/widgets/issues/common/vehicle_widget.dart';
 
 class NewIssueScreen extends StatefulWidget {
   const NewIssueScreen({super.key});

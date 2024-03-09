@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fto_app/model/issue.dart';
-import 'package:fto_app/widgets/issue_screen.dart';
+import 'package:fto_app/widgets/issues/issue_details/issue_details_screen.dart';
 
 class IssueWidget extends StatelessWidget {
   const IssueWidget({super.key, required this.issue, required this.removeIssueFunc});
@@ -23,7 +23,8 @@ class IssueWidget extends StatelessWidget {
                 child: ListTile(
                   onTap: () {
                     // print("Open details for issue ${issue.id}");
-                    Navigator.push(context, MaterialPageRoute(builder: ((context) => IssueScreen(issueInfo: issue))));
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: ((context) => IssueDetailsScreen(issueInfo: issue))));
                   },
                   leading: Text(issue.id.toString()),
                   title: Text(issue.title),

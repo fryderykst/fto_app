@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fto_app/services/remote_service.dart';
 import 'package:fto_app/model/issue.dart';
-import 'package:fto_app/widgets/new_issue/new_issue_screen.dart';
-import 'package:fto_app/widgets/issue_widget.dart';
+import 'package:fto_app/widgets/issues/new_issue/new_issue_screen.dart';
+import 'package:fto_app/widgets/issues/issues_list/issue_widget.dart';
 
 class IssuesListScreen extends StatefulWidget {
   const IssuesListScreen({super.key});

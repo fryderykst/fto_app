@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fto_app/model/issue.dart';
 
-class IssueScreen extends StatelessWidget {
-  const IssueScreen({super.key, required this.issueInfo});
+class IssueDetailsScreen extends StatelessWidget {
+  const IssueDetailsScreen({super.key, required this.issueInfo});
 
   final Issue issueInfo;
 

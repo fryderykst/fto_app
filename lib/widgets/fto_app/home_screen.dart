@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fto_app/widgets/issues_list/issues_list_screen.dart';
+import 'package:fto_app/widgets/issues/issues_list/issues_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
