@@ -27,8 +27,16 @@ class IssueWidget extends StatelessWidget {
                         context, MaterialPageRoute(builder: ((context) => IssueDetailsScreen(issueInfo: issue))));
                   },
                   leading: Text(issue.id.toString()),
-                  title: Text(issue.title),
-                  subtitle: Text(issue.description.toString()),
+                  title: Text(
+                    issue.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Text(
+                    issue.description.toString(),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
               // const Text(("Details"))

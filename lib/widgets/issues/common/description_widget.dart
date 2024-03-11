@@ -29,7 +29,7 @@ class EnterDescriptionForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: textController,
-      scrollController: ScrollController(),
+      scrollController: textFieldScrollController,
       maxLines: 10,
       onChanged: (value) {
         textFieldScrollController.jumpTo(textFieldScrollController.position.maxScrollExtent);
