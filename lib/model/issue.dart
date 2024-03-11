@@ -7,6 +7,8 @@ List<Issue> issueFromJson(String str) => List<Issue>.from(json.decode(str).map((
 
 String isseToJson(List<Issue> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+enum IssueStatus { open, done }
+
 class Issue {
   int id;
   User reporter;
@@ -14,6 +16,7 @@ class Issue {
   Vehicle vehicle;
   String title;
   String? description;
+  IssueStatus status;
 
   Issue({
     required this.id,
@@ -22,6 +25,7 @@ class Issue {
     required this.vehicle,
     required this.title,
     this.description,
+    this.status = IssueStatus.open,
   });
 
   @override
@@ -37,6 +41,7 @@ class Issue {
         vehicle: json["vehicle"],
         title: json["title"],
         description: json["description"],
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,5 +51,6 @@ class Issue {
         "vehicle": vehicle,
         "title": title,
         "description": description,
+        "status": status,
       };
 }

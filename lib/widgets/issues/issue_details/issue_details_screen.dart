@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fto_app/common/string_extension.dart';
 import 'package:fto_app/model/issue.dart';
 
 class IssueDetailsScreen extends StatelessWidget {
@@ -44,6 +45,26 @@ class IssueDetailsScreen extends StatelessWidget {
                     const Text("Title:"),
                     const SizedBox(width: 5),
                     Text(issueInfo.title),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const Text("Status:"),
+                    const SizedBox(width: 5),
+                    Text(
+                      issueInfo.status.toString().split('.').last.toCapitalized(),
+                    ),
+                    const SizedBox(width: 5),
+                    issueInfo.status == IssueStatus.open
+                        ? Icon(
+                            Icons.radio_button_unchecked,
+                            color: Colors.yellow.shade800,
+                          )
+                        : Icon(
+                            Icons.check_circle,
+                            color: Colors.green.shade800,
+                          ),
                   ],
                 ),
                 const SizedBox(height: 10),
