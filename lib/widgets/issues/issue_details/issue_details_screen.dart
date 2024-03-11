@@ -130,15 +130,15 @@ class IssueDetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.arrow_back)),
+                onPressed: () {},
+                icon: const Icon(Icons.edit),
+                tooltip: "Edit",
+              ),
               IconButton(
-                  onPressed: () {
-                    // Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.edit)),
+                onPressed: () {},
+                icon: const Icon(Icons.done),
+                tooltip: "Set as done",
+              ),
             ],
           ),
         ),
