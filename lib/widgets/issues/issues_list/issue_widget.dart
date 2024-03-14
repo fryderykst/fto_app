@@ -24,7 +24,12 @@ class IssueWidget extends StatelessWidget {
                   onTap: () {
                     // print("Open details for issue ${issue.id}");
                     Navigator.push(
-                        context, MaterialPageRoute(builder: ((context) => IssueDetailsScreen(issueInfo: issue))));
+                        // context, MaterialPageRoute(builder: ((context) => IssueDetailsScreen(issueInfo: issue))));
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => IssueDetailsScreen(
+                                  issueId: issue.id,
+                                ))));
                   },
                   leading: Text(issue.id.toString()),
                   title: Text(

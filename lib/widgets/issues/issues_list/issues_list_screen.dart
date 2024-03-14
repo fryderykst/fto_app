@@ -44,12 +44,8 @@ class _IssuesListScreenState extends State<IssuesListScreen> {
     if (result != null && result) getState();
   }
 
-  void removeIssue() {
-    _remoteService.removeIssue().then((value) => getState());
-  }
-
-  void removeIssueById(int id) {
-    _remoteService.removeIssueById(id).then((value) => getState());
+  void removeIssue(int id) {
+    _remoteService.removeIssue(id).then((value) => getState());
   }
 
   @override
@@ -68,7 +64,7 @@ class _IssuesListScreenState extends State<IssuesListScreen> {
               itemBuilder: (context, index) {
                 return IssueWidget(
                   issue: issues![index],
-                  removeIssueFunc: removeIssueById,
+                  removeIssueFunc: removeIssue,
                 );
               },
               separatorBuilder: (context, index) => const Divider(),
