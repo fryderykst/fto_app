@@ -52,6 +52,15 @@ class _IssueDetailsScafold extends StatefulWidget {
   State<StatefulWidget> createState() => _IssueDetailsScafoldState();
 }
 
+enum _IssueDetailMenuEntry {
+  edit('Edit', Icon(Icons.edit)),
+  close('Close issue', Icon(Icons.done));
+
+  const _IssueDetailMenuEntry(this.label, this.icon);
+  final String label;
+  final Icon icon;
+}
+
 class _IssueDetailsScafoldState extends State<_IssueDetailsScafold> {
   final MockRemoteService _remoteService = MockRemoteService();
   late Issue issueInfo = widget.issue;
@@ -80,6 +89,33 @@ class _IssueDetailsScafoldState extends State<_IssueDetailsScafold> {
           // style: Theme.of(context).primaryTextTheme.headlineMedium,
           // overflow: TextOverflow.ellipsis,
         ),
+        actions: [
+          MenuAnchor(
+            menuChildren: [
+              MenuItemButton(
+                leadingIcon: _IssueDetailMenuEntry.edit.icon,
+                child: Text(_IssueDetailMenuEntry.edit.label),
+                onPressed: () {},
+              ),
+              MenuItemButton(
+                leadingIcon: _IssueDetailMenuEntry.close.icon,
+                child: Text(_IssueDetailMenuEntry.close.label),
+                onPressed: () => _showCloseIssueDialog(context),
+              ),
+            ],
+            builder: (context, controller, child) {
+              return IconButton(
+                  onPressed: () {
+                    if (controller.isOpen) {
+                      controller.close();
+                    } else {
+                      controller.open();
+                    }
+                  },
+                  icon: const DrawerButtonIcon());
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: _IssueDetailsBody(issue: widget.issue),
@@ -103,6 +139,46 @@ class _IssueDetailsScafoldState extends State<_IssueDetailsScafold> {
                 },
                 icon: const Icon(Icons.done),
                 tooltip: "Set as done",
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showCloseIssueDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => Dialog(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text("Are you sure you want to close the issue?"),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    child: const Text("No"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text("Yes, close the issue"),
+                    onPressed: () {
+                      MockRemoteService()
+                          .updateIssue(issueInfo.id, newStatus: IssueStatus.done)
+                          .then((value) => getIssue());
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
             ],
           ),
