@@ -116,7 +116,7 @@ class MockRemoteService extends RemoteService {
     return Future<bool>.delayed(const Duration(milliseconds: 100), () => true);
   }
 
-  Future<bool> updateIssue(
+  Future<bool> updateIssueDetails(
     int id, {
     String? newTitle,
     // int? newReporterID,
@@ -135,6 +135,17 @@ class MockRemoteService extends RemoteService {
     if (newStatus != null) _issues[id]!.status = newStatus;
 
     return Future<bool>.delayed(const Duration(milliseconds: 100), () => true);
+  }
+
+  Future<bool> updateIssue(Issue issue) {
+    return updateIssueDetails(
+      issue.id,
+      newTitle: issue.title,
+      newAssigneeID: issue.assignee?.id,
+      newVehicleID: issue.vehicle.id,
+      newDescription: issue.description,
+      newStatus: issue.status,
+    );
   }
 
   Future<bool> removeIssue(int id) async {

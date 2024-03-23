@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:fto_app/model/issue.dart';
 import 'package:fto_app/services/remote_service.dart';
 import 'package:fto_app/widgets/issues/common/assignee_widget.dart';
 import 'package:fto_app/widgets/issues/common/description_widget.dart';
 import 'package:fto_app/widgets/issues/common/title_widget.dart';
 import 'package:fto_app/widgets/issues/common/vehicle_widget.dart';
 
-class NewIssueScreen extends StatefulWidget {
-  const NewIssueScreen({super.key});
+class EditIssueScreen extends StatefulWidget {
+  const EditIssueScreen({super.key, required this.issue});
+  final Issue issue;
 
   @override
   State<StatefulWidget> createState() => NewIssueRouteState();
 }
 
-class NewIssueRouteState extends State<NewIssueScreen> {
+class NewIssueRouteState extends State<EditIssueScreen> {
   // Maybe use state managment to update state of new issue from child widgets?
   // https://docs.flutter.dev/data-and-backend/state-mgmt/simple
+  final MockRemoteService _remoteService = MockRemoteService();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
-  final MockRemoteService _remoteService = MockRemoteService();
   int? assigneeId;
   int? vehicleId;
 
   @override
   void initState() {
     super.initState();
-    getState();
+
+    titleController.text = widget.issue.title;
+    if (widget.issue.description != null) descriptionController.text = widget.issue.description!;
+    assigneeId = widget.issue.assignee?.id;
+    vehicleId = widget.issue.vehicle.id;
   }
 
   void onAssigneeChanged(int id) {
@@ -34,8 +40,6 @@ class NewIssueRouteState extends State<NewIssueScreen> {
   void onVehicleChanged(int id) {
     vehicleId = id;
   }
-
-  getState() async {}
 
   @override
   void dispose() {
@@ -48,7 +52,7 @@ class NewIssueRouteState extends State<NewIssueScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create new issue'),
+        title: const Text('Edit issue'),
       ),
       body: Center(
         child: Padding(
@@ -59,9 +63,15 @@ class NewIssueRouteState extends State<NewIssueScreen> {
               children: <Widget>[
                 TitleWidget(textController: titleController),
                 const SizedBox(height: 15),
-                AssigneeWidget(onChanged: onAssigneeChanged),
+                AssigneeWidget(
+                  onChanged: onAssigneeChanged,
+                  initialId: widget.issue.assignee?.id,
+                ),
                 const SizedBox(height: 15),
-                VehicleWidget(onChanged: onVehicleChanged),
+                VehicleWidget(
+                  onChanged: onVehicleChanged,
+                  initialId: widget.issue.vehicle.id,
+                ),
                 const SizedBox(height: 15),
                 DescriptionWidget(textController: descriptionController),
               ],
@@ -81,10 +91,12 @@ class NewIssueRouteState extends State<NewIssueScreen> {
 
                     // Navigator.maybePop(context); //Default behaviour when push back button on AppBar
                     _remoteService
-                        .createNewIssue(titleController.text, 0, assigneeId, vehicleId!, descriptionController.text)
-                        .then((result) {
-                      Navigator.pop(context, result);
-                    });
+                        .updateIssueDetails(widget.issue.id,
+                            newTitle: titleController.text,
+                            newDescription: descriptionController.text,
+                            newAssigneeID: assigneeId,
+                            newVehicleID: vehicleId)
+                        .whenComplete(() => Navigator.pop(context));
                   },
                   icon: const Icon(Icons.check)),
             ],

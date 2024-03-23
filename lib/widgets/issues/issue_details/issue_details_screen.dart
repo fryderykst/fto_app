@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fto_app/common/string_extension.dart';
 import 'package:fto_app/model/issue.dart';
 import 'package:fto_app/services/remote_service.dart';
+import 'package:fto_app/widgets/issues/edit_issue/edit_issue_screen.dart';
 
 class IssueDetailsScreen extends StatefulWidget {
   const IssueDetailsScreen({super.key, required this.issueId});
@@ -72,7 +73,7 @@ class _IssueDetailsScafoldState extends State<_IssueDetailsScafold> {
     super.initState();
   }
 
-  void getIssue() {
+  void _readIssue() {
     _remoteService.getIssue(widget.issue.id).then((value) {
       setState(() {
         issueInfo = value;
@@ -95,7 +96,7 @@ class _IssueDetailsScafoldState extends State<_IssueDetailsScafold> {
               MenuItemButton(
                 leadingIcon: _IssueDetailMenuEntry.edit.icon,
                 child: Text(_IssueDetailMenuEntry.edit.label),
-                onPressed: () {},
+                onPressed: () => _onEditClicked(context),
               ),
               MenuItemButton(
                 leadingIcon: _IssueDetailMenuEntry.close.icon,
@@ -128,14 +129,14 @@ class _IssueDetailsScafoldState extends State<_IssueDetailsScafold> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () => _onEditClicked(context),
                 icon: const Icon(Icons.edit),
                 tooltip: "Edit",
               ),
               IconButton(
                 onPressed: () {
-                  MockRemoteService().updateIssue(issueInfo.id, newStatus: IssueStatus.done);
-                  getIssue();
+                  MockRemoteService().updateIssueDetails(issueInfo.id, newStatus: IssueStatus.done);
+                  _readIssue();
                 },
                 icon: const Icon(Icons.done),
                 tooltip: "Set as done",
@@ -173,9 +174,9 @@ class _IssueDetailsScafoldState extends State<_IssueDetailsScafold> {
                     child: const Text("Yes, close the issue"),
                     onPressed: () {
                       MockRemoteService()
-                          .updateIssue(issueInfo.id, newStatus: IssueStatus.done)
-                          .then((value) => getIssue());
-                      Navigator.of(context).pop();
+                          .updateIssueDetails(issueInfo.id, newStatus: IssueStatus.done)
+                          .then((value) => _readIssue())
+                          .whenComplete(() => Navigator.of(context).pop());
                     },
                   ),
                 ],
@@ -185,6 +186,15 @@ class _IssueDetailsScafoldState extends State<_IssueDetailsScafold> {
         ),
       ),
     );
+  }
+
+  void _onEditClicked(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditIssueScreen(issue: issueInfo)),
+    ).whenComplete(() {
+      _readIssue();
+    });
   }
 }
 

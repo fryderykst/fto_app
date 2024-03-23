@@ -3,8 +3,10 @@ import 'package:fto_app/model/vehicle.dart';
 import 'package:fto_app/services/remote_service.dart';
 
 class VehicleWidget extends StatelessWidget {
-  const VehicleWidget({super.key, required this.onVehicleChanged});
-  final Function onVehicleChanged;
+  const VehicleWidget({super.key, required this.onChanged, this.initialId});
+
+  final Function onChanged;
+  final int? initialId;
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +19,19 @@ class VehicleWidget extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               )),
           VehicleDropdownMenu(
-            onVehicleChanged: onVehicleChanged,
+            onChanged: onChanged,
+            initialId: initialId,
           ),
         ]);
   }
 }
 
 class VehicleDropdownMenu extends StatefulWidget {
-  VehicleDropdownMenu({super.key, required this.onVehicleChanged});
-  final TextEditingController controller = TextEditingController();
+  VehicleDropdownMenu({super.key, required this.onChanged, this.initialId});
 
-  final Function onVehicleChanged;
+  final TextEditingController controller = TextEditingController();
+  final Function onChanged;
+  final int? initialId;
 
   @override
   State<StatefulWidget> createState() => VehicleDropdownMenuState();
@@ -41,15 +45,16 @@ class VehicleDropdownMenuState extends State<VehicleDropdownMenu> {
 
   @override
   void initState() {
-    getState();
+    _readVehicles();
 
     super.initState();
   }
 
-  getState() async {
+  _readVehicles() async {
     _remoteService.getVehicles().then((readVehicles) {
       setState(() {
         vehicles = readVehicles ?? [];
+        selectedVehicle = widget.initialId;
       });
     });
   }
@@ -76,7 +81,7 @@ class VehicleDropdownMenuState extends State<VehicleDropdownMenu> {
         setState(() {
           selectedVehicle = selected;
         });
-        widget.onVehicleChanged(selected);
+        widget.onChanged(selected);
       },
       leadingIcon: const Icon(Icons.commute),
       // label: const Text("Vehicle"),

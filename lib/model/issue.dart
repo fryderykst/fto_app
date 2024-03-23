@@ -10,7 +10,9 @@ String isseToJson(List<Issue> data) => json.encode(List<dynamic>.from(data.map((
 enum IssueStatus { open, done }
 
 class Issue {
-  int id;
+  int _id;
+  int get id => _id;
+
   User reporter;
   User? assignee;
   Vehicle vehicle;
@@ -19,14 +21,14 @@ class Issue {
   IssueStatus status;
 
   Issue({
-    required this.id,
+    required int id,
     required this.reporter,
     this.assignee,
     required this.vehicle,
     required this.title,
     this.description,
     this.status = IssueStatus.open,
-  });
+  }) : _id = id;
 
   @override
   int get hashCode => id;
