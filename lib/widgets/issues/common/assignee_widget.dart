@@ -27,9 +27,8 @@ class AssigneeWidget extends StatelessWidget {
 }
 
 class AssigneeDropdownMenu extends StatefulWidget {
-  AssigneeDropdownMenu({super.key, required this.onChanged, this.initialId});
+  const AssigneeDropdownMenu({super.key, required this.onChanged, this.initialId});
 
-  final TextEditingController controller = TextEditingController();
   final Function onChanged;
   final int? initialId;
 
@@ -45,9 +44,9 @@ class AssigneeDropdownMenuState extends State<AssigneeDropdownMenu> {
 
   @override
   void initState() {
-    _readUsers();
-
     super.initState();
+
+    _readUsers();
   }
 
   _readUsers() async {
@@ -63,7 +62,6 @@ class AssigneeDropdownMenuState extends State<AssigneeDropdownMenu> {
   Widget build(BuildContext context) {
     return DropdownMenu<int>(
       // enableFilter: true,
-      controller: widget.controller,
       // expandedInsets: const EdgeInsets.symmetric(horizontal: 0),
       width: 300,
       initialSelection: selectedPerson,

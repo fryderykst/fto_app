@@ -28,10 +28,16 @@ class EnterTitileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        autovalidateMode: AutovalidateMode.always,
+        validator: (value) {
+          if (value == null || value.isEmpty) return 'Title can\'t be empty!';
+          return null;
+        },
         controller: textController,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Enter title',
+          // errorText: 'Error',
           floatingLabelBehavior: FloatingLabelBehavior.never,
         ));
   }

@@ -11,25 +11,27 @@ class VehicleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text('Vehicle:',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-              )),
-          VehicleDropdownMenu(
-            onChanged: onChanged,
-            initialId: initialId,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const Text(
+          'Vehicle:',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
           ),
-        ]);
+        ),
+        VehicleDropdownMenu(
+          onChanged: onChanged,
+          initialId: initialId,
+        ),
+      ],
+    );
   }
 }
 
 class VehicleDropdownMenu extends StatefulWidget {
-  VehicleDropdownMenu({super.key, required this.onChanged, this.initialId});
+  const VehicleDropdownMenu({super.key, required this.onChanged, this.initialId});
 
-  final TextEditingController controller = TextEditingController();
   final Function onChanged;
   final int? initialId;
 
@@ -45,9 +47,9 @@ class VehicleDropdownMenuState extends State<VehicleDropdownMenu> {
 
   @override
   void initState() {
-    _readVehicles();
-
     super.initState();
+
+    _readVehicles();
   }
 
   _readVehicles() async {
@@ -63,7 +65,6 @@ class VehicleDropdownMenuState extends State<VehicleDropdownMenu> {
   Widget build(BuildContext context) {
     return DropdownMenu<int>(
       // enableFilter: true,
-      controller: widget.controller,
       width: 200,
       initialSelection: selectedVehicle,
       dropdownMenuEntries: vehicles == null
@@ -85,6 +86,7 @@ class VehicleDropdownMenuState extends State<VehicleDropdownMenu> {
       },
       leadingIcon: const Icon(Icons.commute),
       // label: const Text("Vehicle"),
+      errorText: selectedVehicle != null ? null : 'Vehicle can\'t be empty!',
     );
   }
 }
