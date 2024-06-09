@@ -77,7 +77,7 @@ class _IssuesListScreenState extends State<IssuesListScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(onPressed: addIssue, icon: const Icon(Icons.add_box)),
+              // IconButton(onPressed: addIssue, icon: const Icon(Icons.add_box)),
               IconButton(
                   onPressed: () {
                     // print("Open details for issue ${issue.id}");
