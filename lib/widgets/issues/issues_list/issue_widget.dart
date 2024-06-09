@@ -45,7 +45,7 @@ class IssueWidget extends StatelessWidget {
                 ),
               ),
               // const Text(("Details"))
-              IconButton(onPressed: () => removeIssueFunc(issue.id), icon: const Icon(Icons.remove))
+              // IconButton(onPressed: () => removeIssueFunc(issue.id), icon: const Icon(Icons.remove))
             ],
           )),
     );

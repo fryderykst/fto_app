@@ -3,6 +3,7 @@ import 'package:fto_app/common/string_extension.dart';
 import 'package:fto_app/model/issue.dart';
 import 'package:fto_app/services/remote_service.dart';
 import 'package:fto_app/widgets/issues/edit_issue/edit_issue_screen.dart';
+import 'package:fto_app/widgets/issues/issues_list/issues_list_screen.dart';
 
 class IssueDetailsScreen extends StatefulWidget {
   const IssueDetailsScreen({super.key, required this.issueId});
@@ -55,7 +56,8 @@ class _IssueDetailsScafold extends StatefulWidget {
 
 enum _IssueDetailMenuEntry {
   edit('Edit', Icon(Icons.edit)),
-  close('Close issue', Icon(Icons.done));
+  close('Close issue', Icon(Icons.done)),
+  delete('Remove issue', Icon(Icons.delete));
 
   const _IssueDetailMenuEntry(this.label, this.icon);
   final String label;
@@ -102,6 +104,11 @@ class _IssueDetailsScafoldState extends State<_IssueDetailsScafold> {
                 leadingIcon: _IssueDetailMenuEntry.close.icon,
                 child: Text(_IssueDetailMenuEntry.close.label),
                 onPressed: () => _showCloseIssueDialog(context),
+              ),
+              MenuItemButton(
+                leadingIcon: _IssueDetailMenuEntry.delete.icon,
+                child: Text(_IssueDetailMenuEntry.delete.label),
+                onPressed: () => _showDeleteIssueDialog(context),
               ),
             ],
             builder: (context, controller, child) {
@@ -177,6 +184,48 @@ class _IssueDetailsScafoldState extends State<_IssueDetailsScafold> {
                           .updateIssueDetails(issueInfo.id, newStatus: IssueStatus.done)
                           .then((value) => _readIssue())
                           .whenComplete(() => Navigator.of(context).pop());
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showDeleteIssueDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => Dialog(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text("Are you sure you want to delete the issue?"),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    child: const Text("No"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text("Yes, delete the issue"),
+                    onPressed: () {
+                      MockRemoteService().removeIssue(issueInfo.id).whenComplete(() => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const IssuesListScreen(),
+                            ),
+                          ));
                     },
                   ),
                 ],
